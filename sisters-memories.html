@@ -118,7 +118,8 @@
     .card:nth-child(9) { animation-delay: 0.64s, 4.8s; }
     .card:nth-child(10) { animation-delay: 0.72s, 5.4s; }
 
-    .card img {
+    .card img,
+    .card video {
       width: 100%;
       height: auto;
       max-height: 78vh;
@@ -191,6 +192,11 @@
         <article class="card"><img src="./sis_8.jpeg" alt="Sisters memory 8"></article>
         <article class="card"><img src="./sis_9.jpeg" alt="Sisters memory 9"></article>
         <article class="card"><img src="./sis_10.jpeg" alt="Sisters memory 10"></article>
+        <article class="card">
+          <video controls playsinline preload="metadata">
+            <source src="./sis_video.mp4" type="video/mp4" />
+          </video>
+        </article>
       </div>
     </section>
 
