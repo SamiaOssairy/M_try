@@ -508,6 +508,100 @@
         sisters: []
     };
 
+    const galleryAutoState = new WeakMap();
+
+    function createGalleryAutoScroller(galleryEl) {
+        const state = {
+            direction: 1,
+            running: false,
+            rafId: null,
+            lastFrame: 0,
+            holdUntil: performance.now() + 700,
+            lastUserAction: performance.now()
+        };
+
+        function markUserAction(extraPause = 1800) {
+            const now = performance.now();
+            state.lastUserAction = now;
+            state.holdUntil = Math.max(state.holdUntil, now + extraPause);
+        }
+
+        function loop(ts) {
+            if (!state.running) {
+                return;
+            }
+
+            if (!state.lastFrame) {
+                state.lastFrame = ts;
+            }
+
+            const dt = (ts - state.lastFrame) / 1000;
+            state.lastFrame = ts;
+
+            const maxScroll = galleryEl.scrollHeight - galleryEl.clientHeight;
+            const canAutoScroll =
+                maxScroll > 0 &&
+                !document.hidden &&
+                ts >= state.holdUntil;
+
+            if (canAutoScroll) {
+                galleryEl.scrollTop += state.direction * 52 * dt;
+
+                if (galleryEl.scrollTop >= maxScroll - 2) {
+                    galleryEl.scrollTop = maxScroll;
+                    state.direction = -1;
+                    state.holdUntil = ts + 1100;
+                } else if (galleryEl.scrollTop <= 2) {
+                    galleryEl.scrollTop = 0;
+                    state.direction = 1;
+                    state.holdUntil = ts + 1100;
+                }
+            }
+
+            state.rafId = requestAnimationFrame(loop);
+        }
+
+        ["wheel", "touchstart", "touchmove", "pointerdown", "mousedown", "keydown"].forEach((eventName) => {
+            galleryEl.addEventListener(eventName, () => markUserAction(), { passive: true });
+        });
+
+        galleryEl.addEventListener('mouseenter', () => markUserAction(1400));
+        galleryEl.addEventListener('mouseleave', () => markUserAction(450));
+
+        state.start = function start() {
+            if (state.running) {
+                return;
+            }
+            state.running = true;
+            state.lastFrame = 0;
+            state.holdUntil = performance.now() + 700;
+            state.rafId = requestAnimationFrame(loop);
+        };
+
+        state.stop = function stop() {
+            state.running = false;
+            if (state.rafId) {
+                cancelAnimationFrame(state.rafId);
+                state.rafId = null;
+            }
+        };
+
+        return state;
+    }
+
+    function getGalleryAutoScroller(galleryEl) {
+        if (!galleryAutoState.has(galleryEl)) {
+            galleryAutoState.set(galleryEl, createGalleryAutoScroller(galleryEl));
+        }
+        return galleryAutoState.get(galleryEl);
+    }
+
+    function stopAllGalleryAutoScroll() {
+        document.querySelectorAll('.media-gallery').forEach((gallery) => {
+            getGalleryAutoScroller(gallery).stop();
+        });
+    }
+
     // ============================================================
     // ⭐⭐⭐ IMPORTANT: WHEN YOU SEND YOUR PRINCESS PHOTO, UPDATE THIS LINE! ⭐⭐⭐
     // Just replace the URL inside the quotes with your image URL or data
@@ -613,6 +707,7 @@
     function closeGate() {
         const gate = document.getElementById('magicalGate');
         gate.style.display = 'none';
+        stopAllGalleryAutoScroll();
         showFolders();
         
         // Hide all galleries
@@ -627,6 +722,8 @@
         const backBtn = document.getElementById('backToFoldersBtn');
         folders.style.display = 'flex';
         backBtn.style.display = 'none';
+
+        stopAllGalleryAutoScroll();
 
         document.querySelectorAll('.media-gallery').forEach(g => {
             g.classList.remove('active');
@@ -666,6 +763,7 @@
             gallery.style.display = 'block';
             gallery.scrollTop = 0;
             gallery.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            getGalleryAutoScroller(gallery).start();
         }
     }
 

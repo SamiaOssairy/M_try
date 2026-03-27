@@ -83,7 +83,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       max-height: min(68vh, 760px);
-      scroll-snap-type: y proximity;
+      scroll-snap-type: y mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
       scrollbar-color: #f6a4c6 #ffe3ef;
@@ -196,50 +196,89 @@
 
   <script>
     const scroller = document.getElementById("scrollWrap");
+    const cards = Array.from(scroller.querySelectorAll(".card"));
+    let currentIndex = 0;
     let direction = 1;
-    let lastFrame = 0;
-    let holdUntil = performance.now() + 1200;
-    let lastUserAction = performance.now();
+    let autoTimer = null;
+    let resumeTimer = null;
+    let scrollSyncTimer = null;
 
-    function markUserAction(extraPause = 2600) {
-      const now = performance.now();
-      lastUserAction = now;
-      holdUntil = Math.max(holdUntil, now + extraPause);
+    function syncIndexToNearestCard() {
+      if (!cards.length) return;
+      const top = scroller.scrollTop;
+      let nearestIndex = 0;
+      let nearestDistance = Infinity;
+
+      cards.forEach((card, index) => {
+        const distance = Math.abs(card.offsetTop - top);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+
+      currentIndex = nearestIndex;
     }
 
-    function autoScrollLoop(ts) {
-      if (!lastFrame) {
-        lastFrame = ts;
+    function moveToCurrentCard(behavior = "smooth") {
+      if (!cards[currentIndex]) return;
+      scroller.scrollTo({ top: cards[currentIndex].offsetTop, behavior });
+    }
+
+    function advanceCard() {
+      if (cards.length < 2) return;
+
+      currentIndex += direction;
+      if (currentIndex >= cards.length - 1) {
+        currentIndex = cards.length - 1;
+        direction = -1;
+      } else if (currentIndex <= 0) {
+        currentIndex = 0;
+        direction = 1;
       }
 
-      const dt = (ts - lastFrame) / 1000;
-      lastFrame = ts;
+      moveToCurrentCard("smooth");
+    }
 
-      const maxScroll = scroller.scrollHeight - scroller.clientHeight;
-      const canAutoScroll = maxScroll > 0 && ts >= holdUntil && ts - lastUserAction > 250;
+    function startAutoAdvance() {
+      if (autoTimer || cards.length < 2) return;
+      autoTimer = setInterval(advanceCard, 2300);
+    }
 
-      if (canAutoScroll) {
-        scroller.scrollTop += direction * 20 * dt;
-
-        if (scroller.scrollTop >= maxScroll - 2) {
-          scroller.scrollTop = maxScroll;
-          direction = -1;
-          holdUntil = ts + 1200;
-        } else if (scroller.scrollTop <= 2) {
-          scroller.scrollTop = 0;
-          direction = 1;
-          holdUntil = ts + 1200;
-        }
+    function stopAutoAdvance() {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
       }
+    }
 
-      requestAnimationFrame(autoScrollLoop);
+    function pauseThenResume(delay = 2000) {
+      stopAutoAdvance();
+      if (resumeTimer) {
+        clearTimeout(resumeTimer);
+      }
+      resumeTimer = setTimeout(() => {
+        syncIndexToNearestCard();
+        startAutoAdvance();
+      }, delay);
     }
 
     ["wheel", "touchstart", "touchmove", "pointerdown", "mousedown", "keydown"].forEach((eventName) => {
-      scroller.addEventListener(eventName, () => markUserAction(), { passive: true });
+      scroller.addEventListener(eventName, () => pauseThenResume(2200), { passive: true });
     });
 
-    requestAnimationFrame(autoScrollLoop);
+    scroller.addEventListener("scroll", () => {
+      if (scrollSyncTimer) {
+        clearTimeout(scrollSyncTimer);
+      }
+      scrollSyncTimer = setTimeout(syncIndexToNearestCard, 140);
+    }, { passive: true });
+
+    window.addEventListener("blur", stopAutoAdvance);
+    window.addEventListener("focus", () => pauseThenResume(700));
+
+    syncIndexToNearestCard();
+    startAutoAdvance();
   </script>
 </body>
 </html>
