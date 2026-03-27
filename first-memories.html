@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>First Memories Together</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Quicksand", "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #f9eef7 0%, #ffe0f0 100%);
+      color: #7a3f66;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .page {
+      width: min(1200px, 96vw);
+      min-height: 86vh;
+      background: radial-gradient(ellipse at 30% 30%, #fff6ef, #ffefe7);
+      border-radius: 52px;
+      border: 8px solid #fff7ef;
+      box-shadow: 0 26px 56px rgba(183, 120, 152, 0.35), 0 0 0 12px #ffd3e2;
+      padding: 26px 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow: hidden;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 3.4vw, 2.5rem);
+      color: #b14f7b;
+      text-shadow: 0 2px 0 #fff;
+    }
+
+    .subtitle {
+      color: #a35f7f;
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+    }
+
+    .back {
+      border: none;
+      border-radius: 999px;
+      padding: 0.7rem 1.15rem;
+      background: linear-gradient(135deg, #ffb7cf, #ff95b7);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(215, 93, 145, 0.34);
+      transition: transform 0.2s ease;
+    }
+
+    .back:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .scroll-wrap {
+      margin-top: 6px;
+      background: rgba(255, 255, 255, 0.45);
+      border: 2px solid rgba(255, 203, 224, 0.8);
+      border-radius: 28px;
+      padding: 16px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: min(68vh, 760px);
+      scroll-snap-type: y proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #f6a4c6 #ffe3ef;
+    }
+
+    .cards {
+      display: grid;
+      gap: 16px;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .card {
+      width: 100%;
+      background: #fff;
+      border-radius: 24px;
+      padding: 10px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+      border: 2px solid rgba(255, 211, 229, 0.8);
+      scroll-snap-align: start;
+      animation: fadeIn 0.55s ease backwards, floatSoft 3.6s ease-in-out infinite;
+    }
+
+    .card:nth-child(2) { animation-delay: 0.08s, 0.6s; }
+    .card:nth-child(3) { animation-delay: 0.16s, 1.2s; }
+    .card:nth-child(4) { animation-delay: 0.24s, 1.8s; }
+    .card:nth-child(5) { animation-delay: 0.32s, 2.4s; }
+    .card:nth-child(6) { animation-delay: 0.40s, 3s; }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      max-height: 78vh;
+      object-fit: contain;
+      border-radius: 16px;
+      display: block;
+      background: #fff;
+    }
+
+    .hint {
+      text-align: center;
+      color: #9f6483;
+      font-size: 0.92rem;
+      margin-top: 2px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes floatSoft {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 12px;
+      }
+
+      .page {
+        border-radius: 32px;
+        padding: 18px 14px 14px;
+      }
+
+      .scroll-wrap {
+        max-height: 72vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="top">
+      <div>
+        <h1>First Memories Together</h1>
+        <p class="subtitle">Scroll to see all your photos in themed cards.</p>
+      </div>
+      <button class="back" onclick="window.location.href='./index.html?view=folders'">Back to story</button>
+    </div>
+
+    <section class="scroll-wrap" id="scrollWrap" aria-label="First memories photo cards">
+      <div class="cards">
+        <article class="card"><img src="./first_1.jpeg" alt="First memory 1"></article>
+        <article class="card"><img src="./first_2.jpeg" alt="First memory 2"></article>
+        <article class="card"><img src="./first_3.jpeg" alt="First memory 3"></article>
+        <article class="card"><img src="./first_4.jpeg" alt="First memory 4"></article>
+        <article class="card"><img src="./first_5.jpeg" alt="First memory 5"></article>
+        <article class="card"><img src="./first_6.jpeg" alt="First memory 6"></article>
+      </div>
+    </section>
+
+    <p class="hint">Tip: auto-scroll is on, and you can still scroll manually anytime.</p>
+  </main>
+
+  <script>
+    const scroller = document.getElementById("scrollWrap");
+    let direction = 1;
+    let lastFrame = 0;
+    let holdUntil = performance.now() + 1200;
+    let lastUserAction = performance.now();
+
+    function markUserAction(extraPause = 2600) {
+      const now = performance.now();
+      lastUserAction = now;
+      holdUntil = Math.max(holdUntil, now + extraPause);
+    }
+
+    function autoScrollLoop(ts) {
+      if (!lastFrame) {
+        lastFrame = ts;
+      }
+
+      const dt = (ts - lastFrame) / 1000;
+      lastFrame = ts;
+
+      const maxScroll = scroller.scrollHeight - scroller.clientHeight;
+      const canAutoScroll = maxScroll > 0 && ts >= holdUntil && ts - lastUserAction > 250;
+
+      if (canAutoScroll) {
+        scroller.scrollTop += direction * 20 * dt;
+
+        if (scroller.scrollTop >= maxScroll - 2) {
+          scroller.scrollTop = maxScroll;
+          direction = -1;
+          holdUntil = ts + 1200;
+        } else if (scroller.scrollTop <= 2) {
+          scroller.scrollTop = 0;
+          direction = 1;
+          holdUntil = ts + 1200;
+        }
+      }
+
+      requestAnimationFrame(autoScrollLoop);
+    }
+
+    ["wheel", "touchstart", "touchmove", "pointerdown", "mousedown", "keydown"].forEach((eventName) => {
+      scroller.addEventListener(eventName, () => markUserAction(), { passive: true });
+    });
+
+    requestAnimationFrame(autoScrollLoop);
+  </script>
+</body>
+</html>
