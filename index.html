@@ -1,18 +1,728 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My GitHub Pages Site</title>
-  <link rel="stylesheet" href="try.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Simo's Magical Love Story ✨💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f9eef7 0%, #ffe0f0 100%);
+            font-family: 'Quicksand', 'Segoe UI', 'Poppins', cursive, sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Main container */
+        .story-container {
+            position: relative;
+            width: 1300px;
+            max-width: 95vw;
+            min-height: 85vh;
+            background: radial-gradient(ellipse at 30% 40%, #fff5ec, #ffefe6);
+            border-radius: 70px;
+            box-shadow: 0 30px 60px rgba(200, 120, 150, 0.4), 0 0 0 10px #fff9f0, 0 0 0 15px #ffcfdf;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        /* Scenes */
+        .scene {
+            display: none;
+            width: 100%;
+            min-height: 85vh;
+            padding: 40px 30px;
+            position: relative;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .scene.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Main Story Scene */
+        .story-scene {
+            background: linear-gradient(135deg, #fff5f0, #ffefe8);
+            text-align: center;
+        }
+
+        /* Sparkles background */
+        .sparkle-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sparkle-dot {
+            position: absolute;
+            background: radial-gradient(circle, #ffdd99, #ffecb3);
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0);}
+            50% { opacity: 0.8; transform: scale(1);}
+            100% { opacity: 0; transform: scale(0);}
+        }
+
+        /* Princess Container */
+        .princess-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            z-index: 10;
+        }
+
+        .princess-photo {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid #ffd966;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2), 0 0 0 4px #fff, 0 0 0 8px #ffb7c5;
+            animation: gentleFloat 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .princess-photo:hover {
+            transform: scale(1.02);
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* Hair sway effect (decorative) */
+        .hair-accessory {
+            position: absolute;
+            font-size: 3rem;
+            top: -20px;
+            right: 20px;
+            animation: sway 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* Speech Bubble */
+        .speech-container {
+            position: relative;
+            z-index: 10;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .speech-bubble {
+            background: white;
+            border-radius: 50px;
+            padding: 20px 35px;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #b34e7a;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1), 0 0 0 4px #ffe0f0;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(2px);
+            font-family: 'Quicksand', cursive;
+            transition: all 0.3s ease;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 18px 15px 0 15px;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+        }
+
+        /* Yes Button */
+        .yes-button {
+            background: linear-gradient(135deg, #ff9fbb, #ff7fa3);
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            font-size: 1.5rem;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 25px auto;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 100, 150, 0.4);
+            font-family: 'Quicksand', cursive;
+            letter-spacing: 1px;
+        }
+
+        .yes-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 35px rgba(255, 100, 150, 0.6);
+        }
+
+        /* Hearts Container */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .floating-heart {
+            position: absolute;
+            animation: floatHeartUp 3s ease-out forwards;
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 4px #ff69b4);
+        }
+
+        @keyframes floatHeartUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.6);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(1.2);
+            }
+        }
+
+        /* Magical Gate - Full Screen */
+        .magical-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85), rgba(80,40,60,0.9));
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: gateReveal 0.6s ease;
+        }
+
+        @keyframes gateReveal {
+            from { opacity: 0; transform: scale(1.1); backdrop-filter: blur(0); }
+            to { opacity: 1; transform: scale(1); backdrop-filter: blur(12px); }
+        }
+
+        .gate-content {
+            background: linear-gradient(135deg, #fff9f0, #fff0e8);
+            padding: 40px;
+            border-radius: 70px;
+            text-align: center;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            animation: slideUpContent 0.5s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUpContent {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Gallery Folders */
+        .folders-container {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .folder {
+            background: linear-gradient(135deg, #ffe6f0, #ffd9e8);
+            border-radius: 35px;
+            padding: 25px 20px;
+            width: 250px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,215,0,0.3);
+        }
+
+        .folder:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 35px rgba(0,0,0,0.2);
+            border-color: #ffb347;
+        }
+
+        .folder-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .folder h3 {
+            color: #b34e7a;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .folder p {
+            color: #a05a7a;
+            font-size: 0.9rem;
+        }
+
+        /* Media Gallery */
+        .media-gallery {
+            display: none;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .media-gallery.active {
+            display: flex;
+        }
+
+        .media-item {
+            background: white;
+            border-radius: 25px;
+            padding: 12px;
+            width: 260px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            animation: fadeSlide 0.5s ease backwards;
+        }
+
+        .media-item:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 18px;
+        }
+
+        .media-caption {
+            margin-top: 12px;
+            color: #b34e7a;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .close-gate {
+            background: linear-gradient(135deg, #ffb347, #ff8c42);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .close-gate:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-folder {
+            background: #ffb7c5;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 40px;
+            cursor: pointer;
+            margin: 10px auto;
+            display: inline-block;
+            font-weight: bold;
+            color: #a33e6b;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffe2ef;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d989b0;
+            border-radius: 10px;
+        }
+
+        /* Romantic title */
+        .gate-title {
+            font-size: 2rem;
+            color: #b34e7a;
+            text-shadow: 0 2px 8px #ffcfdf;
+            margin-bottom: 20px;
+        }
+
+        /* Instruction hint */
+        .add-hint {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(255,245,240,0.9);
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 11px;
+            color: #b55a83;
+            z-index: 100;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+    </style>
 </head>
 <body>
-  <main class="card">
-    <h1 class="title">GitHub Pages is working</h1>
-    <p class="subtitle">
-      This page is using your <strong>try.css</strong> file. Push these files,
-      enable Pages, and open your site link.
-    </p>
-  </main>
+<div class="story-container">
+    <!-- Main Story Scene -->
+    <div id="mainScene" class="scene active story-scene">
+        <!-- Sparkle background -->
+        <div class="sparkle-bg" id="sparkleBg"></div>
+        
+        <!-- Princess -->
+        <div class="princess-wrapper">
+            <img id="princessImg" class="princess-photo" src="./rep.jpeg" alt="Princess photo">
+            <div class="hair-accessory">✨🌸</div>
+        </div>
+
+        <!-- Speech Bubble -->
+        <div class="speech-container">
+            <div class="speech-bubble" id="speechBubble">
+                Hey... is that you, Menno? 🤔
+            </div>
+        </div>
+
+        <!-- Yes Button -->
+        <button class="yes-button" id="yesButton">💖 Yes, it's me! 💖</button>
+    </div>
+</div>
+
+<!-- Magical Gate - Full Screen Gallery -->
+<div id="magicalGate" class="magical-gate">
+    <div class="gate-content">
+        <h2 class="gate-title">💕 Our Beautiful Memories 💕</h2>
+        
+        <!-- Folders -->
+        <div class="folders-container" id="foldersContainer">
+            <div class="folder" onclick="showFolder('first')">
+                <div class="folder-icon">🌸📸</div>
+                <h3>First Memories Together</h3>
+                <p>✨ Where our journey began ✨</p>
+            </div>
+            <div class="folder" onclick="showFolder('bestfriends')">
+                <div class="folder-icon">💕👯‍♀️</div>
+                <h3>Becoming Best Friends</h3>
+                <p>💖 Laughter, tears & adventures 💖</p>
+            </div>
+            <div class="folder" onclick="showFolder('sisters')">
+                <div class="folder-icon">👭✨</div>
+                <h3>Becoming Sisters</h3>
+                <p>🌟 Forever family, forever love 🌟</p>
+            </div>
+        </div>
+
+        <!-- Gallery Sections -->
+        <div id="firstMemories" class="media-gallery">
+            <div id="firstMemoriesContent" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%;"></div>
+        </div>
+
+        <div id="bestfriendsMemories" class="media-gallery">
+            <div id="bestfriendsContent" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%;"></div>
+        </div>
+
+        <div id="sistersMemories" class="media-gallery">
+            <div id="sistersContent" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%;"></div>
+        </div>
+
+        <button class="close-gate" onclick="closeGate()">💝 Close & Continue Dreaming 💝</button>
+    </div>
+</div>
+
+<div class="add-hint">
+    💡 Tip: Add your photos using console: addMemory("first", "image", "URL", "Caption")
+</div>
+
+<script>
+    // Memory storage
+    let memories = {
+        first: [],
+        bestfriends: [],
+        sisters: []
+    };
+
+    // ============================================================
+    // ⭐⭐⭐ IMPORTANT: WHEN YOU SEND YOUR PRINCESS PHOTO, UPDATE THIS LINE! ⭐⭐⭐
+    // Just replace the URL inside the quotes with your image URL or data
+    // Example: document.getElementById('princessImg').src = "your-photo-url.jpg";
+    // ============================================================
+    function setPrincessPhoto(photoUrl) {
+        document.getElementById('princessImg').src = photoUrl;
+    }
+    
+    // You can also call this later when you have the photo:
+    // setPrincessPhoto("your-image-url-here");
+
+    // Generate sparkles
+    function createSparkles() {
+        const container = document.getElementById('sparkleBg');
+        for(let i = 0; i < 60; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle-dot');
+            const size = 3 + Math.random() * 8;
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 3 + 's';
+            sparkle.style.animationDuration = 1 + Math.random() * 2 + 's';
+            container.appendChild(sparkle);
+        }
+    }
+    createSparkles();
+
+    // Create floating hearts
+    function createHeartBurst(count = 18) {
+        const heartsContainer = document.createElement('div');
+        heartsContainer.className = 'hearts-container';
+        document.body.appendChild(heartsContainer);
+        
+        for(let i = 0; i < count; i++) {
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = ['❤️', '💖', '💗', '💕', '💓', '🌸', '✨', '💝', '💘'][Math.floor(Math.random() * 9)];
+                heart.style.left = (Math.random() * window.innerWidth) + 'px';
+                heart.style.bottom = '0px';
+                heart.style.fontSize = (18 + Math.random() * 22) + 'px';
+                heartsContainer.appendChild(heart);
+                setTimeout(() => heart.remove(), 2800);
+            }, i * 60);
+        }
+        setTimeout(() => heartsContainer.remove(), 3000);
+    }
+
+    // Yes button click handler
+    document.getElementById('yesButton').addEventListener('click', function() {
+        const bubble = document.getElementById('speechBubble');
+        const btn = this;
+        
+        // Hide button
+        btn.style.display = 'none';
+        
+        // First reply
+        bubble.innerHTML = 'Yes, it\'s me Menno! 😊💖';
+        createHeartBurst(12);
+        
+        // After 2 seconds, show love message
+        setTimeout(() => {
+            bubble.innerHTML = 'Simo loves you so much Menno! ❤️❤️❤️';
+            createHeartBurst(20);
+            
+            // After 2 seconds, open magical gate
+            setTimeout(() => {
+                openMagicalGate();
+            }, 2000);
+        }, 2000);
+    });
+
+    // Open full-screen magical gate
+    function openMagicalGate() {
+        const gate = document.getElementById('magicalGate');
+        gate.style.display = 'flex';
+        
+        // Create magical sparkles
+        for(let i = 0; i < 80; i++) {
+            setTimeout(() => {
+                const spark = document.createElement('div');
+                spark.innerHTML = ['✨', '⭐', '💫', '🌟', '💖', '🌸'][Math.floor(Math.random() * 6)];
+                spark.style.position = 'fixed';
+                spark.style.left = Math.random() * window.innerWidth + 'px';
+                spark.style.top = Math.random() * window.innerHeight + 'px';
+                spark.style.fontSize = (12 + Math.random() * 25) + 'px';
+                spark.style.pointerEvents = 'none';
+                spark.style.zIndex = '2001';
+                spark.style.animation = 'floatHeartUp 1s ease-out forwards';
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 1000);
+            }, i * 20);
+        }
+        
+        // Load example memories (you'll replace these)
+        loadExampleMemories();
+    }
+
+    // Close gate
+    function closeGate() {
+        const gate = document.getElementById('magicalGate');
+        gate.style.display = 'none';
+        
+        // Hide all galleries
+        document.querySelectorAll('.media-gallery').forEach(g => {
+            g.classList.remove('active');
+            g.style.display = 'none';
+        });
+    }
+
+    // Show specific folder
+    function showFolder(folderName) {
+        // Hide all galleries
+        document.querySelectorAll('.media-gallery').forEach(g => {
+            g.classList.remove('active');
+            g.style.display = 'none';
+        });
+        
+        // Show selected gallery
+        const gallery = document.getElementById(`${folderName}Memories`);
+        if (gallery) {
+            gallery.classList.add('active');
+            gallery.style.display = 'flex';
+        }
+    }
+
+    // Load example memories (replace these with your actual memories!)
+    function loadExampleMemories() {
+        // Example memories - REPLACE THESE WITH YOUR ACTUAL PHOTOS/VIDEOS
+        memories.first = [
+            { type: 'image', url: 'https://via.placeholder.com/260x200/FFB6C1/FFFFFF?text=Our+First+Meet', caption: 'The day we first met ✨' },
+            { type: 'image', url: 'https://via.placeholder.com/260x200/FFC0CB/FFFFFF?text=First+Adventure', caption: 'Our first adventure together 💕' },
+        ];
+        
+        memories.bestfriends = [
+            { type: 'image', url: 'https://via.placeholder.com/260x200/FFDAB9/FFFFFF?text=Besties', caption: 'Best friends forever! 💖' },
+            { type: 'image', url: 'https://via.placeholder.com/260x200/FFE4E1/FFFFFF?text=Laughing', caption: 'So many laughs together 😂' },
+        ];
+        
+        memories.sisters = [
+            { type: 'image', url: 'https://via.placeholder.com/260x200/FF69B4/FFFFFF?text=Sisters', caption: 'Sisters by heart 👭' },
+            { type: 'image', url: 'https://via.placeholder.com/260x200/FF85B3/FFFFFF?text=Forever', caption: 'Forever family 🌟' },
+        ];
+        
+        renderMemories('first', memories.first);
+        renderMemories('bestfriends', memories.bestfriends);
+        renderMemories('sisters', memories.sisters);
+    }
+
+    // Render memories
+    function renderMemories(folderName, items) {
+        const container = document.getElementById(`${folderName}Content`);
+        if (!container) return;
+        
+        container.innerHTML = '';
+        items.forEach((item, index) => {
+            const mediaDiv = document.createElement('div');
+            mediaDiv.className = 'media-item';
+            mediaDiv.style.animationDelay = (index * 0.1) + 's';
+            
+            if (item.type === 'image') {
+                const img = document.createElement('img');
+                img.src = item.url;
+                img.alt = item.caption;
+                mediaDiv.appendChild(img);
+            } else if (item.type === 'video') {
+                const video = document.createElement('video');
+                video.controls = true;
+                video.style.width = '100%';
+                const source = document.createElement('source');
+                source.src = item.url;
+                video.appendChild(source);
+                mediaDiv.appendChild(video);
+            }
+            
+            const caption = document.createElement('div');
+            caption.className = 'media-caption';
+            caption.textContent = item.caption;
+            mediaDiv.appendChild(caption);
+            
+            container.appendChild(mediaDiv);
+        });
+    }
+
+    // Function to add your own memories (use in console or call directly)
+    window.addMemory = function(folder, type, url, caption) {
+        if (!memories[folder]) memories[folder] = [];
+        memories[folder].push({ type, url, caption });
+        renderMemories(folder, memories[folder]);
+        // Auto-show the folder if gate is open
+        if (document.getElementById('magicalGate').style.display === 'flex') {
+            showFolder(folder);
+        }
+    };
+
+    // Add some floating hearts periodically
+    setInterval(() => {
+        if (document.getElementById('mainScene').classList.contains('active')) {
+            if (Math.random() > 0.7) {
+                createHeartBurst(3);
+            }
+        }
+    }, 4000);
+
+    // Blinking eyes effect (cute!)
+    const princessImg = document.getElementById('princessImg');
+    setInterval(() => {
+        if (princessImg && document.getElementById('mainScene').classList.contains('active')) {
+            princessImg.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                princessImg.style.transform = '';
+            }, 100);
+        }
+    }, 3500);
+</script>
+
+<!-- Instructions for adding YOUR photos -->
+<script>
+    console.log('🎀✨ MAGICAL STORY READY! ✨🎀');
+    console.log('📸 TO ADD YOUR PRINCESS PHOTO:');
+    console.log('   setPrincessPhoto("your-image-url.jpg")');
+    console.log('');
+    console.log('📁 TO ADD MEMORIES TO FOLDERS:');
+    console.log('   addMemory("first", "image", "photo-url.jpg", "Our first memory 💕")');
+    console.log('   addMemory("bestfriends", "image", "friends-photo.jpg", "Best friends moment")');
+    console.log('   addMemory("sisters", "video", "video-url.mp4", "Sisterhood forever")');
+    console.log('');
+    console.log('💖 Folders: "first", "bestfriends", "sisters"');
+    console.log('🌟 When you get your princess photo, just call setPrincessPhoto()!');
+</script>
 </body>
 </html>
